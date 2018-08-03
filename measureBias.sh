@@ -8,18 +8,19 @@
 #
 
 # Address to ping to
-export TARGET_IPV4="10.0.0.190"
-export TARGET_IPV6="2601:1c0:cb03:1a9d:226:8ff:fee3:b1b8"
+export TARGET_IPV4="10.10.1.2"
+export TARGET_IPV6="fd41:98cb:a6ff:5a6a::"
 
 # Name of dind container
 export DIND_NAME="docker-in-docker"
 # Repo path to dind image
 export DIND_LOC="docker:stable-dind"
 # ipv6 subnet for dind's dockerd
-export DIND_IPV6_SUBNET="2601:1c0:cb03:1a9d:eeee::/80"
+export DIND_IPV6_SUBNET="fd41:98cb:a6ff:5a6a:eeee::/80"
 
 # Native (local) ping command
 export NATIVE_PING="$(pwd)/iputils/ping"
+export NATIVE_DEV="eno1d1"
 # Container ping command
 export PING_IMAGE_NAME="chrismisa/contools:ping"
 export CONTAINER_PING="docker run --rm $PING_IMAGE_NAME"
@@ -27,7 +28,11 @@ export CONTAINER_PING="docker run --rm $PING_IMAGE_NAME"
 # Argument sequence is an associative array
 # between file suffixes and argument strings
 declare -A ARG_SEQ=(
-  ["round1"]="-c 6 -i 1 -s 56"
+  ["i0.5s16"]="-c 1500 -i 0.5 -s 16"
+  ["i0.5s56"]="-c 1500 -i 0.5 -s 56"
+  ["i0.5s120"]="-c 1500 -i 0.5 -s 120"
+  ["i0.5s504"]="-c 1500 -i 0.5 -s 504"
+  ["i0.5s1472"]="-c 1500 -i 0.5 -s 1472"
 )
 
 # Tag for data directory
@@ -54,7 +59,7 @@ do
   $SLEEP_CMD
   $NATIVE_PING ${ARG_SEQ[$i]} $TARGET_IPV4 > nativeping_target_v4_$i
   $SLEEP_CMD
-  $NATIVE_PING -6 ${ARG_SEQ[$i]} $TARGET_IPV6 > nativeping_target_v6_$i
+  $NATIVE_PING -6 -I $NATIVE_DEV ${ARG_SEQ[$i]} $TARGET_IPV6 > nativeping_target_v6_$i
 done
 
 # Run first-level container
