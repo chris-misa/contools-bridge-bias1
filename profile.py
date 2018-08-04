@@ -2,10 +2,13 @@
 
 Instructions:
   Wait for the profile to start,
-  run setupHost.sh on node1,
-  start additional monitoring if desired,
-  run experiment on node1,
-  collect data.
+  run $ sudo ./setupHost.sh on node1,
+  add ipv6 addresses to experiment interfaces on both nodes,
+  update targets in ./measureBias.sh,
+  test ipv4 and ipv6 connectivity,
+  start measureBias.sh,
+  wait,
+  collect results.
 """
 
 # Boiler plate

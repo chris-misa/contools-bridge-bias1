@@ -3,8 +3,13 @@
 #
 # Install / build / configure for overheads ping performance test
 #
-# Might need to be run under sudo
+# Run under sudo!
 #
+
+# Move in config files for dockerd and ndppd
+mkdir -p /etc/docker
+cp config/daemon.json /etc/docker/
+cp config/ndppd.conf /etc/
 
 # Get dependencies for host system from deb
 apt-get update
@@ -20,16 +25,3 @@ git clone https://github.com/iputils/iputils.git
 pushd iputils
 make
 popd
-
-# Move in config files for dockerd and ndppd
-cp config/daemon.json /etc/docker/
-cp config/ndppd.conf /etc/
-
-# Restart both dockerd and ndppd to load configs
-kill `ps -e | grep dockerd | sed -E 's/ *([0-9]+).*/\1/'`
-kill `ps -e | grep ndppd | sed -E 's/ *([0-9]+).*/\1/'`
-dockerd &
-ndppd &
-
-# The above invocations might not work: in the past we just used windows in tmux
-# and ran both daemons in the forground.
