@@ -68,7 +68,7 @@ docker run --rm --privileged -d \
 docker run --rm -itd \
   --name="$PING_CONTAINER_NAME" \
   --entrypoint="/bin/bash" \
-  $PING_CONTAINER
+  $PING_IMAGE_NAME
 
 # Wait for them to be ready
 until [ "`docker inspect -f {{.State.Running}} $DIND_CONTAINER_NAME`" \
@@ -90,8 +90,8 @@ echo "    ipv6: $DIND_IPV6"
 PING_IPV4=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $PING_CONTAINER_NAME`
 PING_IPV6=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.GlobalIPv6Address}}{{end}}' $PING_CONTAINER_NAME`
 echo "  ping container up with"
-echo "    ipv4: $DIND_IPV4"
-echo "    ipv6: $DIND_IPV6"
+echo "    ipv4: $PING_IPV4"
+echo "    ipv6: $PING_IPV6"
 
 
 # Spin up ping container in docker in docker
@@ -99,7 +99,7 @@ docker exec $DIND_CONTAINER_NAME \
   docker run --rm -itd \
     --name="$PING_CONTAINER_NAME" \
     --entrypoint="/bin/bash" \
-    $PING_CONTAINER
+    $PING_IMAGE_NAME
 
 # Wait for it to be ready
 until [ "`docker exec $DIND_CONTAINER_NAME \
@@ -119,8 +119,8 @@ DIND_PING_IPV6=`docker exec $DIND_CONTAINER_NAME \
   -f '{{range .NetworkSettings.Networks}}{{.GlobalIPv6Address}}{{end}}' \
   $PING_CONTAINER_NAME`
 echo "  ping container in docker in docker up with"
-echo "    ipv4: $DIND_IPV4"
-echo "    ipv6: $DIND_IPV6"
+echo "    ipv4: $DIND_PING_IPV4"
+echo "    ipv6: $DIND_PING_IPV6"
 
 # take a break and see if this works. . .
 
