@@ -17,14 +17,13 @@
 #
 
 # Address to ping to
-# export TARGET_IPV4="10.10.1.2"
-export TARGET_IPV4="216.58.192.14"
+export TARGET_IPV4="10.10.1.2"
 export TARGET_IPV6="fd41:98cb:a6ff:5a6a::"
 
 # Argument sequence is an associative array
 # between file suffixes and argument strings
 declare -A ARG_SEQ=(
-  ["i0.5s16.ping"]="-c 3 -i 0.5 -s 16"
+  ["i0.5s120.ping"]="-c 3 -i 0.5 -s 120"
 )
 
 # Native (local) ping command
@@ -49,6 +48,16 @@ export META_DATA="Metadata"
 export SLEEP_CMD="sleep 5"
 # Cosmetics
 export B="------------"
+
+# Pull needed containers from docker hub
+docker pull chrismisa/contools:ping
+docker pull chrismisa/contools:dind
+
+if [ $? -ne 0 ]
+then
+  echo "Failed to pull images from dockerhub!"
+  exit 1
+fi
 
 # Make a directory for results
 echo $B Gathering system metadata . . . $B

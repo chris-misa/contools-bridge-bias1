@@ -22,6 +22,3 @@ pushd iputils
 make
 popd
 
-# Pull needed containers from docker hub
-docker pull chrismisa/contools:ping
-docker pull chrismisa/contools:dind
