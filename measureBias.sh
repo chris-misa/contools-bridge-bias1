@@ -17,7 +17,8 @@
 #
 
 # Address to ping to
-export TARGET_IPV4="10.10.1.2"
+# export TARGET_IPV4="10.10.1.2"
+export TARGET_IPV4="216.58.192.14"
 export TARGET_IPV6="fd41:98cb:a6ff:5a6a::"
 
 # Argument sequence is an associative array
@@ -140,11 +141,15 @@ do
 
   echo "  dind -> container"
   $SLEEP_CMD
-  docker exec $DIND_CONTAINER_NAME $DIND_PING_CMD ${ARG_SEQ[$i]} $TARGET_IPV4 > v4_dind_to_container_$i
+  docker exec $DIND_CONTAINER_NAME $DIND_PING_CMD ${ARG_SEQ[$i]} $PING_IPV4 > v4_dind_to_container_$i
 
   echo "  dind container -> container"
   $SLEEP_CMD
-  docker exec $DIND_CONTAINER_NAME docker exec $PING_CONTAINER_NAME ping ${ARG_SEQ[$i]} $TARGET_IPV4 > v4_dind_container_to_container_$i
+  docker exec $DIND_CONTAINER_NAME docker exec $PING_CONTAINER_NAME ping ${ARG_SEQ[$i]} $PING_IPV4 > v4_dind_container_to_container_$i
 done
 
 # Run ipv6 measurements
+
+# Clean up
+echo $B Spinning down containers $B
+docker stop $DIND_CONTAINER_NAME $PING_CONTAINER_NAME
