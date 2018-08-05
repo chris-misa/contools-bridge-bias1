@@ -23,7 +23,26 @@ export TARGET_IPV6="fd41:98cb:a6ff:5a6a::"
 # Argument sequence is an associative array
 # between file suffixes and argument strings
 declare -A ARG_SEQ=(
-  ["i0.5s120.ping"]="-c 3 -i 0.5 -s 120"
+  ["i0.5s120_0.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_1.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_2.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_3.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_4.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_5.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_6.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_7.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_8.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s120_9.ping"]="-c 100 -i 0.5 -s 120"
+  ["i0.5s56_0.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_1.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_2.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_3.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_4.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_5.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_6.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_7.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_8.ping"]="-c 100 -i 0.5 -s 56"
+  ["i0.5s56_9.ping"]="-c 100 -i 0.5 -s 56"
 )
 
 # Native (local) ping command
@@ -50,8 +69,8 @@ export SLEEP_CMD="sleep 5"
 export B="------------"
 
 # Pull needed containers from docker hub
-docker pull chrismisa/contools:ping
-docker pull chrismisa/contools:dind
+docker pull $PING_IMAGE_NAME
+docker pull $DIND_IMAGE_NAME
 
 if [ $? -ne 0 ]
 then
