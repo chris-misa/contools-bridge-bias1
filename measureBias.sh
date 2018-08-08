@@ -33,16 +33,6 @@ declare -A ARG_SEQ=(
   ["i0.5s120_7.ping"]="-c 100 -i 0.5 -s 120"
   ["i0.5s120_8.ping"]="-c 100 -i 0.5 -s 120"
   ["i0.5s120_9.ping"]="-c 100 -i 0.5 -s 120"
-  ["i0.5s56_0.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_1.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_2.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_3.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_4.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_5.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_6.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_7.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_8.ping"]="-c 100 -i 0.5 -s 56"
-  ["i0.5s56_9.ping"]="-c 100 -i 0.5 -s 56"
 )
 
 # Native (local) ping command
@@ -167,16 +157,14 @@ do
   $SLEEP_CMD
   docker exec $PING_CONTAINER_NAME ping ${ARG_SEQ[$i]} $TARGET_IPV4 > v4_container_to_target_$i
 
-  echo "  dind -> container"
+  echo "  dind -> target"
   $SLEEP_CMD
-  docker exec $DIND_CONTAINER_NAME $DIND_PING_CMD ${ARG_SEQ[$i]} $PING_IPV4 > v4_dind_to_container_$i
+  docker exec $DIND_CONTAINER_NAME $DIND_PING_CMD ${ARG_SEQ[$i]} $TARGET_IPV4 > v4_dind_to_target_$i
 
-  echo "  dind container -> container"
+  echo "  dind container -> target"
   $SLEEP_CMD
-  docker exec $DIND_CONTAINER_NAME docker exec $PING_CONTAINER_NAME ping ${ARG_SEQ[$i]} $PING_IPV4 > v4_dind_container_to_container_$i
+  docker exec $DIND_CONTAINER_NAME docker exec $PING_CONTAINER_NAME ping ${ARG_SEQ[$i]} $TARGET_IPV4 > v4_dind_container_to_target_$i
 done
-
-# Run ipv6 measurements
 
 # Clean up
 echo $B Spinning down containers $B
